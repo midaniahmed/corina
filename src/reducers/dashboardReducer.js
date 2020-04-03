@@ -3,6 +3,7 @@ import {
   ALL_COUNTRIES_LOADED,
   LOADING_ALL_COUNTRIES,
   GLOBAL_STATS_LOADING,
+  EMPTY_DASHBOARD_DETAILS,
 } from "ReduxActions/dashboardActions";
 
 import world from "Assets/images/world-map.png";
@@ -20,6 +21,7 @@ const initialState = {
   allCountries: [],
   loading: false,
   statsLoaging: false,
+  allHistory: [],
 };
 
 export default function(state = initialState, action) {
@@ -48,6 +50,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         statsLoaging: action.payload,
+      };
+
+    case EMPTY_DASHBOARD_DETAILS:
+      return {
+        ...state,
+        allCountries: [],
       };
 
     default:

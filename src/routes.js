@@ -3,14 +3,16 @@ import {
   Router,
   Route,
   browserHistory,
+  IndexRedirect,
   Redirect,
   IndexRoute,
 } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 
 import HeaderLayout from "./components/app/HeaderLayout";
-import DashboardContext from "./components/dashboard/DashboardContext";
 import CountryContext from "./components/country/CountryContext";
+import DashboardContext from "./components/dashboard/DashboardContext";
+import MapContext from "./components/dashboard/MapContext";
 
 export default function(store) {
   const history = syncHistoryWithStore(browserHistory, store);
@@ -18,8 +20,12 @@ export default function(store) {
   return (
     <Router history={history}>
       <Route path="/" component={HeaderLayout}>
-        <IndexRoute component={DashboardContext} />
-        <Route path=":country" component={CountryContext} />
+        <IndexRedirect to="details" />
+        <Route path="details">
+          <IndexRoute component={DashboardContext} />
+          <Route path=":country" component={CountryContext} />
+        </Route>
+        <Route path="map" component={MapContext} />
       </Route>
       <Redirect from="*" to="/" />
     </Router>

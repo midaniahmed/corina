@@ -5,6 +5,7 @@ export const GLOBAL_STATS_LOADED = "dashboard:global:stats:loaded";
 export const GLOBAL_STATS_LOADING = "dashboard:global:stats:loading";
 export const ALL_COUNTRIES_LOADED = "dashboard:all:countries:loaded";
 export const LOADING_ALL_COUNTRIES = "dashboard:all:countries:loading";
+export const EMPTY_DASHBOARD_DETAILS = "dashboard:details:unmount";
 
 export function loadGlobalStats() {
   return dispatch => {
@@ -29,6 +30,19 @@ export function loadAllCountries() {
   }
 };
 
+export function loadAllHistoricalData() {
+  return dispatch => {
+    // dispatch({ type: GLOBAL_STATS_LOADING, payload: true });
+    api.get(`/v2/historical`)
+      .then(({data}) => {
+        console.log(data)
+        // dispatch({ payload: data, type: GLOBAL_STATS_LOADED, map: data.countryInfo ? data.countryInfo.flag : world });
+        // dispatch({ type: GLOBAL_STATS_LOADING, payload: false });
+      })
+      .catch(err => {})
+  }
+};
+
 export function loadGlobalStatsByCountry(countryCode) {
   return dispatch => {
     dispatch({ type: GLOBAL_STATS_LOADING, payload: true });
@@ -38,5 +52,11 @@ export function loadGlobalStatsByCountry(countryCode) {
         dispatch({ type: GLOBAL_STATS_LOADING, payload: false });
       })
       .catch(err => dispatch({ type: GLOBAL_STATS_LOADING, payload: false }))
+  }
+};
+
+export function onUnmountDetails() {
+  return dispatch => {
+    dispatch({ type: EMPTY_DASHBOARD_DETAILS });
   }
 };

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import { Row, Col, Avatar, Card, Spin } from "antd";
+import { Row, Col, Avatar, Card, Spin, Tabs } from "antd";
 import { PageHeader, Descriptions } from "antd";
 import { NumberCard } from "SharedComponents";
+import { browserHistory } from "react-router";
 
 import { loadGlobalStats, loadGlobalStatsByCountry } from "ReduxActions/dashboardActions";
 
@@ -12,11 +13,17 @@ import bo7 from "Assets/images/bo7.png";
 
 import "./HeaderLayout.scss";
 
+const { TabPane } = Tabs;
+
 function HeaderLayout(props) {
   useEffect(() => {
     if(props.params.country) props.loadGlobalStatsByCountry(props.params.country);
     else props.loadGlobalStats();
   }, []);
+
+  function callback(key) {
+    browserHistory.push(key);
+  }
 
   const renderContent = (column = 2) => (
     <div>
@@ -82,6 +89,19 @@ function HeaderLayout(props) {
           title={<Avatar src={corina} />}
           subTitle="Corina كورينا"
           extra={[<h3 key="1">{moment(props.updated).format("LLL")}</h3>]}
+          footer={
+            props.params.country ? null : (
+              <div className="flex-start">
+                <Tabs
+                  defaultActiveKey={props.location.pathname}
+                  onChange={callback}
+                >
+                  <TabPane tab="Details" key="/details" />
+                  <TabPane tab="Map" key="/map" />
+                </Tabs>
+              </div>
+            )
+          }
         >
           <Spin spinning={props.statsLoaging}>
             <Content>{renderContent()}</Content>

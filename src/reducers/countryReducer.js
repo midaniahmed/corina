@@ -1,6 +1,7 @@
 import {
   LOADING_COUNTRY_HISTORY,
   COUNTRY_HISTORY_LOADED,
+  EMPTY_COUNTRY,
 } from "ReduxActions/countryActions";
 
 const initialState = {
@@ -17,7 +18,6 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case COUNTRY_HISTORY_LOADED:
-      console.log(200, action.payload)
       return {
         ...state,
         ...action.payload,
@@ -34,6 +34,9 @@ export default function(state = initialState, action) {
         ...state,
         loading: action.payload,
       };
+
+    case EMPTY_COUNTRY:
+      return initialState;
 
     default:
       return state;

@@ -25,7 +25,7 @@ export default function CustomChart({title, timeline}) {
         data: Object.keys(timeline[block]).map(val => ({x: val, y:timeline[block][val]})),
       })
     })
-console.log(result)
+
     return result;
   };
 

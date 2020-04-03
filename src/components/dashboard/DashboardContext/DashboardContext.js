@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 
-import { loadAllCountries, loadGlobalStatsByCountry } from "ReduxActions/dashboardActions";
+import { loadAllCountries, loadGlobalStatsByCountry, onUnmountDetails } from "ReduxActions/dashboardActions";
 
 import "./DashboardContext.scss";
 
@@ -23,6 +23,9 @@ function formatNumber(num) {
 function DashboardContext(props) {
   useEffect(() => {
     props.loadAllCountries();
+    return function cleanup() {
+      props.onUnmountDetails();
+    };
   }, []);
 
   const redirectToCountry = (code) => {
@@ -36,7 +39,7 @@ function DashboardContext(props) {
       dataIndex: "country",
       key: "country",
       render: (text, row) => (
-        <Link to={row.countryInfo.iso2 && row.countryInfo.iso2.toLowerCase()} onClick={() => redirectToCountry(row.countryInfo.iso2)}>
+        <Link to={row.countryInfo.iso2 ? "details/"+row.countryInfo.iso2.toLowerCase() : "details"} onClick={() => redirectToCountry(row.countryInfo.iso2)}>
           <div className="cursor-pointer">
             <span className="mr-2">
               {
@@ -162,4 +165,4 @@ function mapStateToProps({ dashboard }) {
   };
 }
 
-export default connect(mapStateToProps, { loadAllCountries, loadGlobalStatsByCountry })(DashboardContext);
+export default connect(mapStateToProps, { loadAllCountries, loadGlobalStatsByCountry, onUnmountDetails })(DashboardContext);
