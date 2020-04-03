@@ -1,11 +1,14 @@
-import { Card, Radio } from "antd";
+import { Card, Radio, Select } from "antd";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-
 import { loadAllHistoricalData } from "ReduxActions/dashboardActions";
 
+import { countries } from "./countries";
+
 import { ResponsiveLine } from "@nivo/line";
+
+const { Option } = Select;
 
 const Group = props => (
   <Radio.Group
@@ -37,6 +40,7 @@ function formatNumber(num) {
 
 function TimelineContext(props) {
   const [filter, setFilter] = useState("cases");
+  const [selectedCountries, setSelectedCountries] = useState(["USA","Italy","Spain","Germany","France"]);
 
   useEffect(() => {
     props.loadAllHistoricalData();
@@ -44,19 +48,22 @@ function TimelineContext(props) {
 
   function parseAllHistory() {
     let result = [];
-    const slice = props.allHistory.slice(1, 5)
-    slice.map(ctr => {
+    const selected = props.allHistory.filter(it => selectedCountries.includes(it.country));
+    selected.map(ctr => {
       result.push({
         id: ctr.province ? `${ctr.country} - ${ctr.province}` : ctr.country,
-        color: "hsl(140, 76%, 65%)",
+        color: intToRGB(hashCode(ctr.country)),
         data: Object.keys(ctr.timeline[filter]).map(val => ({
           x: val,
           y: ctr.timeline[filter][val],
         })),
       });
     });
-
     return result;
+  }
+
+  function handleChange(value) {
+    setSelectedCountries(value);
   }
 
   return (
@@ -67,10 +74,46 @@ function TimelineContext(props) {
           bordered={true}
           bodyStyle={{ padding: 0 }}
         >
-          <Group onChange={e => setFilter(e)} value={filter} />
+          <div className="flex-between">
+            <Group onChange={e => setFilter(e)} value={filter} />
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="select countries"
+              defaultValue={selectedCountries}
+              onChange={handleChange}
+              optionLabelProp="label"
+            >
+              {countries.map(country => (
+                <Option
+                  key={country.code}
+                  value={country.name}
+                  label={
+                    <div>
+                      <span
+                        role="img"
+                        aria-label={country.name}
+                        className="mr-2"
+                      >
+                        <img src={country.flag} height="16px" width="32px" />
+                        <span className="ml-2">
+                         {country.name}
+                        </span>
+                      </span>
+                    </div>
+                  }
+                >
+                  <span role="img" aria-label={country.name} className="mr-2">
+                    <img src={country.flag} height="16px" width="32px" />
+                  </span>
+                  {country.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
           <div
             className="CustomChart"
-            style={{ minHeight: "400px", width: "100%" }}
+            style={{ height: "600px", width: "100%" }}
           >
             <ResponsiveLine
               data={parseAllHistory()}
@@ -103,7 +146,7 @@ function TimelineContext(props) {
                 legendOffset: -40,
                 legendPosition: "middle",
               }}
-              colors={["hsl(140, 76%, 65%)"]}
+              // colors={["#DF7D89"]}
               enablePoints={false}
               pointSize={1}
               pointColor={{ theme: "background" }}
@@ -156,3 +199,18 @@ function mapStateToProps({ dashboard }) {
 export default connect(mapStateToProps, { loadAllHistoricalData })(
   TimelineContext
 );
+
+function hashCode(str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return hash;
+}
+
+function intToRGB(i) {
+  var c = (i & 0x00ffffff).toString(16).toUpperCase();
+
+  const col = "00000".substring(0, 6 - c.length) + c;
+  return "#" + col;
+}
