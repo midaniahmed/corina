@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: process.env.API_URL });
+// const api = axios.create({ baseURL: process.env.API_URL });
+const api = axios.create({ baseURL: "https://corona.lmao.ninja" });
 
 api.interceptors.request.use(
   config => {
