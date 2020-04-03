@@ -4,6 +4,7 @@ import {
   LOADING_ALL_COUNTRIES,
   GLOBAL_STATS_LOADING,
   EMPTY_DASHBOARD_DETAILS,
+  ALL_HISTORY_LOADED,
 } from "ReduxActions/dashboardActions";
 
 import world from "Assets/images/world-map.png";
@@ -51,6 +52,12 @@ export default function(state = initialState, action) {
         ...state,
         statsLoaging: action.payload,
       };
+
+    case ALL_HISTORY_LOADED:
+      return {
+        ...state,
+        allHistory: action.payload,
+      }
 
     case EMPTY_DASHBOARD_DETAILS:
       return {

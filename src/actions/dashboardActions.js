@@ -5,6 +5,7 @@ export const GLOBAL_STATS_LOADED = "dashboard:global:stats:loaded";
 export const GLOBAL_STATS_LOADING = "dashboard:global:stats:loading";
 export const ALL_COUNTRIES_LOADED = "dashboard:all:countries:loaded";
 export const LOADING_ALL_COUNTRIES = "dashboard:all:countries:loading";
+export const ALL_HISTORY_LOADED = "dashboard:all:history:loaded";
 export const EMPTY_DASHBOARD_DETAILS = "dashboard:details:unmount";
 
 export function loadGlobalStats() {
@@ -35,8 +36,7 @@ export function loadAllHistoricalData() {
     // dispatch({ type: GLOBAL_STATS_LOADING, payload: true });
     api.get(`/v2/historical`)
       .then(({data}) => {
-        console.log(data)
-        // dispatch({ payload: data, type: GLOBAL_STATS_LOADED, map: data.countryInfo ? data.countryInfo.flag : world });
+        dispatch({ payload: data, type: ALL_HISTORY_LOADED });
         // dispatch({ type: GLOBAL_STATS_LOADING, payload: false });
       })
       .catch(err => {})

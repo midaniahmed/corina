@@ -98,6 +98,7 @@ function HeaderLayout(props) {
                 >
                   <TabPane tab="Details" key="/details" />
                   <TabPane tab="Map" key="/map" />
+                  <TabPane tab="Timeline" key="/timeline" />
                 </Tabs>
               </div>
             )
