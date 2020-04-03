@@ -1,0 +1,30 @@
+html {
+  display: flex;
+  align-items: stretch;
+  min-height: 100%;
+}
+
+body {
+  width: 100%;
+  background: #f9f9f9 !important;
+  font-family: 'Roboto' !important;
+  user-select: none;
+}
+
+.custom-scrollbar {
+	margin-left: 30px;
+	float: left;
+	width: 65px;
+	background: #F5F5F5;
+	overflow-y: scroll;
+	margin-bottom: 25px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #d6d6d6;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
