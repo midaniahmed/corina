@@ -59,9 +59,8 @@ function HeaderLayout(props) {
         </Col>
       </Row>
       <Descriptions size="small" column={column}>
-        <Descriptions.Item label="Created by"><img style={{ padding: "8px" }} height="40" src={bo7} />Bo7-tech</Descriptions.Item>
-        <Descriptions.Item label="Creation Time">2020-01-10</Descriptions.Item>
-        <Descriptions.Item label="Effective Time">2020-4-10</Descriptions.Item>
+        <Descriptions.Item span={2} label="Created by"><a href="https://www.linkedin.com/in/ahmed-midani-a7a68310b/" target="_blank">Midani Ahmed</a></Descriptions.Item>
+        <Descriptions.Item span={2} label="©"><img style={{ padding: "8px" }} height="40" src={bo7} />Bo7-tech</Descriptions.Item>
       </Descriptions>
     </div>
   );
