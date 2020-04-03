@@ -1,13 +1,14 @@
-import { Table, Avatar, Typography, Affix } from "antd";
-import React, { useEffect } from "react";
+import { Table, Avatar, Typography, Select } from "antd";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-
+import { countries } from "../TimelineContext/countries";
 import { loadAllCountries, loadGlobalStatsByCountry, onUnmountDetails } from "ReduxActions/dashboardActions";
 
 import "./DashboardContext.scss";
 
 const { Text } = Typography;
+const { Option } = Select;
 // const status = {
 //   1: {color: "#64ea91"},
 //   2: {color: "#f69899"},
@@ -21,6 +22,8 @@ function formatNumber(num) {
 }
 
 function DashboardContext(props) {
+  const [selectedCountries, setSelectedCountries] = useState([]);
+
   useEffect(() => {
     props.loadAllCountries();
     return function cleanup() {
@@ -108,12 +111,60 @@ function DashboardContext(props) {
       render: text => <Text strong>{formatNumber(text)}</Text>,
     },
   ];
+
+  function handleChange(value) {
+    setSelectedCountries(value);
+  }
+
+  function filterCountries(data) {
+    if(selectedCountries.length) {
+      const selected = data.filter(it => selectedCountries.includes(it.country));
+      return selected;
+    }
+    return data;
+  }
   return (
     <div className="DashboardContext">
       {/* <Affix offsetTop={top}></Affix> */}
+      <div className="flex-end">
+            <Select
+              mode="multiple"
+              style={{ width: "50%" }}
+              placeholder="Search for countries"
+              defaultValue={selectedCountries}
+              onChange={handleChange}
+              optionLabelProp="label"
+            >
+              {countries.map(country => (
+                <Option
+                  key={country.code}
+                  value={country.name}
+                  label={
+                    <div>
+                      <span
+                        role="img"
+                        aria-label={country.name}
+                        className="mr-2"
+                      >
+                        <img src={country.flag} height="16px" width="32px" />
+                        <span className="ml-2">
+                         {country.name}
+                        </span>
+                      </span>
+                    </div>
+                  }
+                >
+                  <span role="img" aria-label={country.name} className="mr-2">
+                    <img src={country.flag} height="16px" width="32px" />
+                  </span>
+                  {country.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
       <Table
         columns={columns}
-        dataSource={props.all}
+        dataSource={filterCountries(props.all)}
         pagination={false}
         rowKey="country"
         bordered={true}

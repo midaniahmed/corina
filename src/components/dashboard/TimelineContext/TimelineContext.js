@@ -79,7 +79,7 @@ function TimelineContext(props) {
             <Select
               mode="multiple"
               style={{ width: "50%" }}
-              placeholder="select countries"
+              placeholder="Select countries"
               defaultValue={selectedCountries}
               onChange={handleChange}
               optionLabelProp="label"
