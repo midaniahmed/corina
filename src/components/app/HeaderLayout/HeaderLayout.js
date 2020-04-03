@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import { Row, Col, Avatar } from "antd";
-import { PageHeader, Button, Descriptions } from "antd";
+import { Row, Col, Avatar, Card, Spin } from "antd";
+import { PageHeader, Descriptions } from "antd";
 import { NumberCard } from "SharedComponents";
 
-import { loadGlobalStats } from "ReduxActions/dashboardActions";
+import { loadGlobalStats, loadGlobalStatsByCountry } from "ReduxActions/dashboardActions";
 
 import corina from "Assets/images/corina.png";
 import bo7 from "Assets/images/bo7.png";
@@ -14,15 +14,17 @@ import "./HeaderLayout.scss";
 
 function HeaderLayout(props) {
   useEffect(() => {
-    props.loadGlobalStats();
+    if(props.params.country) props.loadGlobalStatsByCountry(props.params.country);
+    else props.loadGlobalStats();
   }, []);
 
   const renderContent = (column = 2) => (
     <div>
-      
       <Row justify="end" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col lg={6} md={12} sm={12} xs={24}>
-          <h3>{moment(props.update).format("LLL")}</h3>
+          <Card className="number-card" bordered={true} bodyStyle={{ padding: 0 }}>
+            <img src={props.countryMap} height="104px" width="100%" />
+          </Card>
         </Col>
         <Col lg={6} md={12} sm={12} xs={24}>
           <NumberCard
@@ -66,20 +68,24 @@ function HeaderLayout(props) {
     );
   };
 
+  function onBack() {
+    window.history.back();
+    props.loadGlobalStats();
+  }
+
   return (
     <div className="HeaderLayout">
       <div>
         <PageHeader
           className="site-page-header-responsive"
-          onBack={() => window.history.back()}
+          onBack={props.params.country ? () => onBack() : null}
           title={<Avatar src={corina} />}
           subTitle="Corina كورينا"
-          extra={[
-            <Button key="3">Operation</Button>,
-            <Button key="2">Operation</Button>,
-          ]}
+          extra={[<h3 key="1">{moment(props.updated).format("LLL")}</h3>]}
         >
-          <Content>{renderContent()}</Content>
+          <Spin spinning={props.statsLoaging}>
+            <Content>{renderContent()}</Content>
+          </Spin>
         </PageHeader>
       </div>
       {props.children}
@@ -93,9 +99,11 @@ function mapStateToProps({ dashboard }) {
     deaths: dashboard.global.deaths,
     recovered: dashboard.global.recovered,
     active: dashboard.global.active,
-    update: dashboard.global.update,
+    updated: dashboard.global.updated,
     affectedCountries: dashboard.global.affectedCountries,
+    countryMap: dashboard.countryMap,
+    statsLoaging: dashboard.statsLoaging,
   };
 }
 
-export default connect(mapStateToProps, { loadGlobalStats })(HeaderLayout);
+export default connect(mapStateToProps, { loadGlobalStats, loadGlobalStatsByCountry })(HeaderLayout);

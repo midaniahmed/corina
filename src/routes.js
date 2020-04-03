@@ -10,6 +10,7 @@ import { syncHistoryWithStore } from "react-router-redux";
 
 import HeaderLayout from "./components/app/HeaderLayout";
 import DashboardContext from "./components/dashboard/DashboardContext";
+import CountryContext from "./components/country/CountryContext";
 
 export default function(store) {
   const history = syncHistoryWithStore(browserHistory, store);
@@ -18,6 +19,7 @@ export default function(store) {
     <Router history={history}>
       <Route path="/" component={HeaderLayout}>
         <IndexRoute component={DashboardContext} />
+        <Route path=":country" component={CountryContext} />
       </Route>
       <Redirect from="*" to="/" />
     </Router>

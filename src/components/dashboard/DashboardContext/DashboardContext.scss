@@ -3,4 +3,17 @@
   .ant-typography {
     float: right;
   }
+  .flag-class {
+    cursor: pointer;
+  }
+  .country-name {
+    color: #337ab7;
+    text-decoration: underline;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    &:hover {
+      color: #23527c;
+    }
+  }
 }

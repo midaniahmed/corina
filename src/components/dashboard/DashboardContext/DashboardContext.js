@@ -1,8 +1,9 @@
 import { Table, Avatar, Typography, Affix } from "antd";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router";
 
-import { loadAllCountries } from "ReduxActions/dashboardActions";
+import { loadAllCountries, loadGlobalStatsByCountry } from "ReduxActions/dashboardActions";
 
 import "./DashboardContext.scss";
 
@@ -24,22 +25,29 @@ function DashboardContext(props) {
     props.loadAllCountries();
   }, []);
 
+  const redirectToCountry = (code) => {
+    if(code)
+      props.loadGlobalStatsByCountry(code.toLowerCase());
+  };
+
   const columns = [
     {
       title: "Country",
       dataIndex: "country",
       key: "country",
       render: (text, row) => (
-        <div>
-          <span className="mr-2">
-            {
-              row.countryInfo.iso2 ? (
-                <img src={`https://www.countryflags.io/${row.countryInfo.iso2}/shiny/64.png`} />
-              ) : <Avatar shape="square" size={48} />
-            }
-          </span>
-          <span>{text}</span>
-        </div>
+        <Link to={row.countryInfo.iso2 && row.countryInfo.iso2.toLowerCase()} onClick={() => redirectToCountry(row.countryInfo.iso2)}>
+          <div className="cursor-pointer">
+            <span className="mr-2">
+              {
+                row.countryInfo.iso2 ? (
+                  <img src={`https://www.countryflags.io/${row.countryInfo.iso2}/shiny/64.png`} className="flag-class"  />
+                ) : <Avatar shape="square" size={48} />
+              }
+            </span>
+            <span className="country-name">{text}</span>
+          </div>
+        </Link>
       ),
     },
     {
@@ -154,4 +162,4 @@ function mapStateToProps({ dashboard }) {
   };
 }
 
-export default connect(mapStateToProps, { loadAllCountries })(DashboardContext);
+export default connect(mapStateToProps, { loadAllCountries, loadGlobalStatsByCountry })(DashboardContext);
