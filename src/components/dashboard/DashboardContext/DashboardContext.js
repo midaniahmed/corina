@@ -41,6 +41,7 @@ function DashboardContext(props) {
       title: "Country",
       dataIndex: "country",
       key: "country",
+      fixed: "left",
       render: (text, row) => (
         <Link to={row.countryInfo.iso2 ? "details/"+row.countryInfo.iso2.toLowerCase() : "details"} onClick={() => redirectToCountry(row.countryInfo.iso2)}>
           <div className="cursor-pointer">
@@ -61,54 +62,63 @@ function DashboardContext(props) {
       dataIndex: "cases",
       key: "cases",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.cases - b.cases,
     },
     {
       title: "New Cases",
       dataIndex: "todayCases",
       key: "todayCases",
       render: text => <Text type="warning">{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.todayCases - b.todayCases,
     },
     {
       title: "Total Deaths",
       dataIndex: "deaths",
       key: "deaths",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.deaths - b.deaths,
     },
     {
       title: "New Deaths",
       dataIndex: "todayDeaths",
       key: "todayDeaths",
       render: text => <Text type="danger">{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.todayDeaths - b.todayDeaths,
     },
     {
       title: "Total Recovered",
       dataIndex: "recovered",
       key: "recovered",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.recovered - b.recovered,
     },
     {
       title: "Active Cases",
       dataIndex: "active",
       key: "active",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.active - b.active,
     },
     {
       title: "Serious, Critical",
       dataIndex: "critical",
       key: "critical",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.critical - b.critical,
     },
     {
       title: "Tot Cases/ 1M pop",
       dataIndex: "casesPerOneMillion",
       key: "casesPerOneMillion",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.casesPerOneMillion - b.casesPerOneMillion,
     },
     {
       title: "Deaths/ 1M pop",
       dataIndex: "deathsPerOneMillion",
       key: "deathsPerOneMillion",
       render: text => <Text strong>{formatNumber(text)}</Text>,
+      sorter: (a, b) => a.deathsPerOneMillion - b.deathsPerOneMillion,
     },
   ];
 
@@ -169,6 +179,7 @@ function DashboardContext(props) {
         rowKey="country"
         bordered={true}
         loading={props.loading}
+        scroll={{ x: 1000 }}
         summary={pageData => {
 
           let cases = 0;
