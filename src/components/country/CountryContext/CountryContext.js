@@ -35,7 +35,7 @@ function CountryContext(props) {
           <CustomMap
             title="Stats By Provinces"
             country={props.country}
-            statsByProvinces={props.statsByProvinces}
+            provinces={props.statsByProvinces}
           />
         </Col>
       </Row>
