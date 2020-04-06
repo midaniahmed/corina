@@ -2,25 +2,41 @@ import { Row, Col } from "antd";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
-import { loadCountryHistory, onUnmount } from "ReduxActions/countryActions";
+import {
+  loadCountryHistory,
+  onUnmount,
+  loadByProvinces,
+} from "ReduxActions/countryActions";
 
 import CustomChart from "../CustomChart";
+import CustomMap from "../CustomMap";
 
 import "./CountryContext.scss";
 
+const actions = { loadCountryHistory, onUnmount, loadByProvinces };
 function CountryContext(props) {
   useEffect(() => {
     props.loadCountryHistory(props.params.country);
+    if (props.params.country.includes("us")) props.loadByProvinces("states");
     return function cleanup() {
       props.onUnmount();
     };
   }, []);
 
   return (
-    <div className="HeaderLayout mt-3">
-      <Row justify="center" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+    <div className="mt-3">
+      <Row justify="center">
         <Col lg={23} md={23} sm={23} xs={23}>
-          <CustomChart title="Total Cases" timeline={props.timeline} />
+          <CustomChart title="Total Stats" timeline={props.timeline} />
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col lg={23} md={23} sm={23} xs={23}>
+          <CustomMap
+            title="Stats By Provinces"
+            country={props.country}
+            statsByProvinces={props.statsByProvinces}
+          />
         </Col>
       </Row>
     </div>
@@ -29,18 +45,13 @@ function CountryContext(props) {
 
 function mapStateToProps({ country }) {
   return {
-    provinces: country.provinces,
+    statsByProvinces: country.statsByProvinces,
     timeline: country.timeline,
     country: country.country,
     loading: country.loading,
   };
 }
 
-export default connect(mapStateToProps, { loadCountryHistory, onUnmount })(CountryContext);
+export default connect(mapStateToProps, actions)(CountryContext);
 
-        {/* <Col lg={12} md={12} sm={24} xs={24}>
-          <CustomChart title="Total Deaths" />
-        </Col>
-        <Col lg={12} md={12} sm={24} xs={24}>
-          <CustomChart title="Total Recovered" />
-        </Col> */}
+{/* <Col lg={12} md={12} sm={24} xs={24}> */}

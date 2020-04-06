@@ -2,6 +2,7 @@ import {
   LOADING_COUNTRY_HISTORY,
   COUNTRY_HISTORY_LOADED,
   EMPTY_COUNTRY,
+  COUNTRY_PROVINCES_LOADED,
 } from "ReduxActions/countryActions";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     deaths: {},
     recovered: {},
   },
+  statsByProvinces: [],
   country: null,
   loading: false,
 };
@@ -21,11 +23,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...action.payload,
-        // provinces: action.payload.provinces,
-        // country: action.payload.country,
-        // cases: action.payload.timeline.cases,
-        // deaths: action.payload.timeline.deaths,
-        // recovered: action.payload.timeline.recovered,
         loading: false,
       };
 
@@ -34,6 +31,12 @@ export default function(state = initialState, action) {
         ...state,
         loading: action.payload,
       };
+    
+    case COUNTRY_PROVINCES_LOADED:
+      return {
+        ...state,
+        statsByProvinces: action.payload,
+      }
 
     case EMPTY_COUNTRY:
       return initialState;
