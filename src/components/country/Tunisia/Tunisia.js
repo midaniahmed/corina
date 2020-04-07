@@ -15,6 +15,11 @@ function Tunisia(props) {
     props.getProvinces();
   }, []);
 
+  function formatNumber(num) {
+    if(!num) return ""
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  }
+
   const columns = [
     {
       title: "Governorate",
@@ -47,6 +52,13 @@ function Tunisia(props) {
           sorter: (a, b) => a.Nb_retablis - b.Nb_retablis,
         },
       ],
+    },
+    {
+      title: "Population",
+      dataIndex: "Pop_19",
+      key: "Pop_19",
+      render: text => <Typography.Text strong>{formatNumber(text)}</Typography.Text>,
+      sorter: (a, b) => a.Pop_19 - b.Pop_19,
     },
   ];
 
