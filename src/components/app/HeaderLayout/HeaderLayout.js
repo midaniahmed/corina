@@ -5,6 +5,7 @@ import { Row, Col, Avatar, Card, Spin, Tabs } from "antd";
 import { PageHeader, Descriptions } from "antd";
 import { NumberCard } from "SharedComponents";
 import { browserHistory } from "react-router";
+import { LinkedinFilled } from '@ant-design/icons';
 
 import { loadGlobalStats, loadGlobalStatsByCountry } from "ReduxActions/dashboardActions";
 
@@ -59,7 +60,7 @@ function HeaderLayout(props) {
         </Col>
       </Row>
       <Descriptions size="small" column={column}>
-        <Descriptions.Item span={2} label="Created by"><a href="https://www.linkedin.com/in/ahmed-midani-a7a68310b/" target="_blank">Midani Ahmed</a></Descriptions.Item>
+        <Descriptions.Item span={2} label="Created by"><a href="https://www.linkedin.com/in/ahmed-midani-a7a68310b/" target="_blank"><LinkedinFilled /> Midani Ahmed</a></Descriptions.Item>
         <Descriptions.Item span={2} label="©"><img style={{ padding: "8px" }} height="40" src={bo7} />Bo7-tech</Descriptions.Item>
       </Descriptions>
     </div>
@@ -75,7 +76,7 @@ function HeaderLayout(props) {
   };
 
   function onBack() {
-    window.history.back();
+    browserHistory.push("/details")
     props.loadGlobalStats();
   }
 
@@ -90,7 +91,7 @@ function HeaderLayout(props) {
           extra={[<h3 key="1">{moment(props.updated).format("LLL")}</h3>]}
           footer={
             props.params.country ? null : (
-              <div className="flex-start">
+              <div className="flex-between">
                 <Tabs
                   defaultActiveKey={props.location.pathname}
                   onChange={callback}
@@ -99,6 +100,7 @@ function HeaderLayout(props) {
                   <TabPane tab="Map" key="/map" />
                   <TabPane tab="Timeline" key="/timeline" />
                 </Tabs>
+                <img style={{cursor: "pointer"}} onClick={() => browserHistory.push("/details/tn")}  src="https://www.countryflags.io/tn/flat/64.png" />
               </div>
             )
           }

@@ -11,6 +11,7 @@ import {
 import CustomChart from "../CustomChart";
 import CustomMap from "../CustomMap";
 import CustomPie from "../CustomPie";
+import Tunisia from "../Tunisia";
 
 import "./CountryContext.scss";
 
@@ -26,30 +27,42 @@ function CountryContext(props) {
 
   return (
     <div className="mt-3">
-      <Row justify="center">
+      {/* <Row justify="center">
         <Col lg={23} md={23} sm={23} xs={23}>
           <CustomChart title="Total Stats" timeline={props.timeline} />
         </Col>
-      </Row>
-      <Row justify="center">
-        <Col lg={23} md={23} sm={23} xs={23}>
-          <CustomPie
-            title="Compare"
-            country={props.country}
-            provinces={props.statsByProvinces}
-            cityNames={props.statsByProvinces.map(i=> i.state)}
-          />
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col lg={23} md={23} sm={23} xs={23}>
-          <CustomMap
-            title="Stats By Provinces"
-            country={props.country}
-            provinces={props.statsByProvinces}
-          />
-        </Col>
-      </Row>
+      </Row> */}
+      {props.country != "Tunisia" ? (
+        <Row justify="center">
+          <Col lg={23} md={23} sm={23} xs={23}>
+            <CustomChart title="Total Stats" timeline={props.timeline} />
+          </Col>
+          <Col lg={23} md={23} sm={23} xs={23}>
+            <CustomPie
+              title="Compare"
+              country={props.country}
+              provinces={props.statsByProvinces}
+              cityNames={props.statsByProvinces.map(i => i.state)}
+            />
+          </Col>
+          <Col lg={23} md={23} sm={23} xs={23}>
+            <CustomMap
+              title="Stats By Provinces"
+              country={props.country}
+              provinces={props.statsByProvinces}
+            />
+          </Col>
+        </Row>
+      ) : (
+        <Row justify="center">
+          <Col lg={23} md={23} sm={23} xs={23}>
+            <Tunisia />
+          </Col>
+          <Col lg={23} md={23} sm={23} xs={23}>
+            <CustomChart title="Total Stats" timeline={props.timeline} />
+          </Col>
+        </Row>
+      )}
     </div>
   );
 }
@@ -65,4 +78,6 @@ function mapStateToProps({ country }) {
 
 export default connect(mapStateToProps, actions)(CountryContext);
 
-{/* <Col lg={12} md={12} sm={24} xs={24}> */}
+{
+  /* <Col lg={12} md={12} sm={24} xs={24}> */
+}

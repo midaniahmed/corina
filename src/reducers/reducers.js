@@ -4,10 +4,12 @@ import { reducer as form } from "redux-form";
 
 import dashboard from "./dashboardReducer";
 import country from "./countryReducer";
+import tunisia from "./tunisiaReducer";
 
 const appReducer = combineReducers({
   dashboard,
   country,
+  tunisia,
   routing,
   form,
 });

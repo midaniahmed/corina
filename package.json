@@ -59,6 +59,7 @@
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.0.5",
     "@nivo/bar": "^0.61.1",
     "@nivo/geo": "^0.61.1",
     "@nivo/line": "^0.61.1",
