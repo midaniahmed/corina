@@ -61,7 +61,7 @@ function HeaderLayout(props) {
       </Row>
       <Descriptions size="small" column={column}>
         <Descriptions.Item span={2} label="Created by"><a href="https://www.linkedin.com/in/ahmed-midani-a7a68310b/" target="_blank"><LinkedinFilled /> Midani Ahmed</a></Descriptions.Item>
-        <Descriptions.Item span={2} label="©"><img style={{ padding: "8px" }} height="40" src={bo7} />Bo7-tech</Descriptions.Item>
+        {/* <Descriptions.Item span={2} label="©"><img style={{ padding: "8px" }} height="40" src={bo7} />Bo7-tech</Descriptions.Item> */}
       </Descriptions>
     </div>
   );
