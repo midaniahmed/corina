@@ -10,6 +10,7 @@ import {
 
 import CustomChart from "../CustomChart";
 import CustomMap from "../CustomMap";
+import CustomPie from "../CustomPie";
 
 import "./CountryContext.scss";
 
@@ -28,6 +29,16 @@ function CountryContext(props) {
       <Row justify="center">
         <Col lg={23} md={23} sm={23} xs={23}>
           <CustomChart title="Total Stats" timeline={props.timeline} />
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col lg={23} md={23} sm={23} xs={23}>
+          <CustomPie
+            title="Compare"
+            country={props.country}
+            provinces={props.statsByProvinces}
+            cityNames={props.statsByProvinces.map(i=> i.state)}
+          />
         </Col>
       </Row>
       <Row justify="center">
