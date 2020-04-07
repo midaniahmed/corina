@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./server.js",
+    "start": "webpack --config webpack.config.js --env.env=prod && node ./server.js",
     "dev": "webpack-dev-server --config webpack.config.js --env.env=dev",
     "build": "webpack --config webpack.config.js --env.env=prod",
     "test": "echo \"Error: no test specified\" && exit 0"
