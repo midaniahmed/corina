@@ -100,7 +100,7 @@ function HeaderLayout(props) {
                   <TabPane tab="Map" key="/map" />
                   <TabPane tab="Timeline" key="/timeline" />
                 </Tabs>
-                <img style={{cursor: "pointer"}} onClick={() => browserHistory.push("/details/tn")}  src="https://www.countryflags.io/tn/flat/64.png" />
+                <img style={{cursor: "pointer"}} onClick={() => {props.loadGlobalStatsByCountry("tn"); browserHistory.push("/details/tn")}}  src="https://www.countryflags.io/tn/flat/64.png" />
               </div>
             )
           }

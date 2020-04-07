@@ -1,7 +1,8 @@
-import { DONATION_LOADED } from "ReduxActions/tunisiaActions";
+import { DONATION_LOADED, TUNISIA_PROVINCES_LOADED } from "ReduxActions/tunisiaActions";
 
 const initialState = {
   totalDonation: 0,
+  provinces: [],
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +11,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         totalDonation: action.payload.totSolde,
+      };
+
+    case TUNISIA_PROVINCES_LOADED:
+      return {
+        ...state,
+        provinces: action.payload.features,
       };
 
     default:
