@@ -42,7 +42,7 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    // new CleanWebpgitackPlugin(),
     new HtmlWebpackPlugin({
       title: "Corina",
       template: `${__dirname}/dist/index.html`,
